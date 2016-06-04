@@ -129,3 +129,49 @@ docker run --rm --entrypoint head -v ~/logs:/data alpine /data/logA
 docker run --rm --entrypoint head -v ~/logs:/data alpine /data/logB  //same as below
 docker run --rm  -v ~/logs:/data alpine head /data/logB
 ```
+#####chap5 network
+######
+--net
+```
+docker run --rm --net none alpine:latest ip addr
+```
+ping test
+```
+docker run --rm --net none alpine:latest ping -w 2 8.8.8.8   //max time=2s
+```
+
+bridge
+```
+docker run --rm --net bridge alpine:latest ip addr
+```
+ping test
+```
+docker run --rm alpine:latest ping -w 2 8.8.8.8   //do not need to specify
+```
+--hostname --dns --dns-search
+```
+docker run --rm --hostname ke alpine:latest nslookup ke
+```
+```
+docker run --rm --dns 8.8.8.8 alpine:latest nslookup github.com
+```
+```
+docker run --rm --dns-search github.com alpine:latest nslookup developer
+```
+
+--add-host
+```
+docker run --rm --hostname ke --add-host y.com 127.0.0.1 alpine cat /etc/hosts
+```
+-P: expose all ports 
+```
+docker run -d --name ke -P
+```
+--expose add anotherport
+```
+docker run -d --name ke --expose 8000 -P box
+```
+check all opening ports
+```
+docker port ke
+```
