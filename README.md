@@ -208,3 +208,66 @@ docker run --rm  busybox awk -F: '$0=$2' /etc/passwd
 ```
 docker run --rm -u nobody:nogroup busybox id
 ```
+#####7
+######7.1 build docker images from a container
+basic:
+```
+docker run --name ke ubuntu touch /test
+```
+syntax: commit oldimage newimage
+```
+docker commit ke newimage
+```
+test:
+```
+docker rm -vf ke
+docker run --rm newimage ls -l /test
+```
+######7.1.3
+check a container's diff after making some change
+```
+docker run -it --name ke ubuntu:latest /bin/bash
+touch a
+exit
+docker diff ke
+```
+
+Add a image name
+```
+docker commit -a "@authorname" -m "message" ke newname
+```
+
+new image can call `git version` directly. using --entrypoint
+```
+docker run --name ke --entrypoint git boxname
+docker commit -a "@ke" -m "" ke boxname
+docker rm -vf ke
+docker run --name ke boxname version   // call git version
+```
+entrypoint: old way
+```
+ docker run --name ke -e ENV=ke busybox
+ docker commit ke new
+ docker run --rm new /bin/sh -c "echo \$ENV"
+ ```
+ entrypoint:
+```
+ docker run --name ke --entrypoint "/bin/sh" new -c "echo \$ENV"
+ docker commit ke new
+ docker run --rm new
+ ```
+ 
+ docker tag
+ ```
+ docker tag 1234 rengokantai/k:latest
+ docker tag rengokantai/k:latest rengokantai/j  //create a new image, same id
+ ```
+ docker tag -f is deprecated.  
+ 
+ using docker history
+ ```
+ docker history -H busybox
+ ```
+ ######7.3 exporting and importing flat
+ 
+
