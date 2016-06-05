@@ -200,3 +200,11 @@ create link and list env var
 ```
 docker run -it --rm --link db:database dockerinaction/ch5_ff env
 ```
+#####6
+run as user,first, get all available user: assign $1 to $0
+```
+docker run --rm  busybox awk -F: '$0=$2' /etc/passwd
+```
+```
+docker run --rm -u nobody:nogroup busybox id
+```
