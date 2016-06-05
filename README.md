@@ -175,3 +175,28 @@ check all opening ports
 ```
 docker port ke
 ```
+
+isolate inter container communitaion:
+```
+docker -d --icc=false
+```
+open container
+```
+docker run --rm --net host alpine:latest ip addr
+```
+
+another expose test (not working)
+```
+docker run -d --name data --expose 3306 dockerinaction/mysql_noauth service mysql_noauth start
+docker run -d --name app --link data:db dockerinaction/ch5_web startapp.sh -db tcp://db:3306
+docker run -d --name program 
+```
+
+env modification
+```
+docker run -d --name db --expose 2222 --expose 3333 --expose 4444/udp alpine:latest nc -l 0.0.0.0/2222
+```
+create link and list env var
+```
+docker run -it --rm --link db:database dockerinaction/ch5_ff env
+```
