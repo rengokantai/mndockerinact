@@ -1,4 +1,21 @@
 #### mndockerinact
+if seems like
+```
+docker run -it --name vv ubuntu /bin/sh = docker run -it --name vv ubuntu
+docker run -it --name vv ubuntu /bin/bash
+```
+some commands easy to mess up
+```
+docker run --name ke ...
+docker tag 12324  rengokantai/name:tag  / Or: docker tag rengokantai/name:tag1  rengokantai/name:tag2
+docker build --tag/-t rengokantai/name .
+```
+CMD, ENTRYPOINT,RUN
+```
+ENTRYPOINT: same as docker container entrypoint
+CMD: ENTRYPOINT other arguments
+RUN: pre install softwares..
+```
 #####2
 get all ps from a container
 ```
@@ -269,5 +286,76 @@ entrypoint: old way
  docker history -H busybox
  ```
  ######7.3 exporting and importing flat
- 
+ export file system
+ ```
+ docker run --name ke busybox echo xx
+ docker export --output ke.tar ke
+ tar -tf ke.tar
+ ```
+#####cp8
+######Dockerfile
+using -f as input
+```
+docker build -t tagname -f filename .
+```
+######8.3 Injecting downstream build-time
+```
+ONBUILD RUN ls -la /app
+```
+#####ch9
+######9.3.1 Using the registry image
+```
+docker run -d -p 5000:5000 -v "$(pwd)"/data:/tmp --restart-always --name ke registry:2
+```
+
+#####11
+######docker-cmpose,log
+```
+docker-compose logs
+docker-compose logs pump elasticserach
+```
+start part of service
+```
+docker-compose up -d db
+```
+by default, it docker compose service will start wieh dependency
+```
+docker-compose up --no-dep -d db
+```
+get all process of a service
+```
+docker-compose ps coffee
+```
+scale a service,and open multiple ps
+```
+docker-compose scale coffee=5
+```
+
+(to be)
+
+#####chap12 Clusters with Machine and swarm
+######12.1
+```
+docker-machine create --driver/-d virtubox h1
+docker-machine ls
+docker-machine inspect --format "{{.Driver.IPAddress}}" host1
+docker-machine upgrade host1
+docker-machine ssh  host1
+```
+
+copy between machines
+```
+docker-machine scp host1:/file host2:/file
+docker-machine stop/kill/start host1
+```
+eval and powershell alternative
+```
+eval `docker-machine env host1`
+docker-machine env --shell=powershell host1 | Invoke-Expression
+```
+list active machine
+```
+docker-machine active
+docker-machine ls
+```
 
